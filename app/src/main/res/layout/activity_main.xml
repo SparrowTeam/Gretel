@@ -33,6 +33,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="55dp"
-        android:text="ID" />
+        android:text="ID"
+        android:textAlignment="center" />
 
 </android.widget.RelativeLayout>

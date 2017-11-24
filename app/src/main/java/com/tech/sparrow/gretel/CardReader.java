@@ -15,9 +15,11 @@
  */
 package com.tech.sparrow.gretel;
 
+import android.app.Activity;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -30,8 +32,11 @@ import java.util.Arrays;
  */
 public class CardReader implements NfcAdapter.ReaderCallback {
     private static final String TAG = "CardReader";
+    private MainActivity parentActivity;
 
-    public CardReader() { }
+    public CardReader(MainActivity parentActivity) {
+        this.parentActivity = parentActivity;
+    }
 
     /**
      * Callback when a new tag is discovered by the system.
@@ -45,13 +50,14 @@ public class CardReader implements NfcAdapter.ReaderCallback {
         Log.i(TAG, "New tag discovered");
         Log.i(TAG, "Tag info: " + tag.toString());
         byte[] tagId = tag.getId();
-        Log.i(TAG, String.format("ID: %02X %02X %02X %02X",
-                tagId[0],
-                tagId[1],
-                tagId[2],
-                tagId[3]
-                )
+        String tagIdStr = String.format("%02X %02X %02X %02X",
+            tagId[0],
+            tagId[1],
+            tagId[2],
+            tagId[3]
         );
+        Log.i(TAG, "ID: " + tagIdStr);
+        parentActivity.handleTagId(tagIdStr);
     }
 
     /**
