@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
-    public LoyaltyCardReader mLoyaltyCardReader;
+    public CardReader mLoyaltyCardReader;
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
-        mLoyaltyCardReader = new LoyaltyCardReader();
+        mLoyaltyCardReader = new CardReader();
         if (nfc != null) {
             nfc.enableReaderMode(this, mLoyaltyCardReader, READER_FLAGS, null);
         }

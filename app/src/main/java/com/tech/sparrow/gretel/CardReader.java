@@ -29,7 +29,7 @@ import java.util.Arrays;
  *
  * Reader mode can be invoked by calling NfcAdapter
  */
-public class LoyaltyCardReader implements NfcAdapter.ReaderCallback {
+public class CardReader implements NfcAdapter.ReaderCallback {
     private static final String TAG = "LoyaltyCardReader";
     // AID for our loyalty card service.
     private static final String SAMPLE_LOYALTY_CARD_AID = "F222222222";
@@ -40,7 +40,7 @@ public class LoyaltyCardReader implements NfcAdapter.ReaderCallback {
     private static final byte[] SELECT_OK_SW = {(byte) 0x90, (byte) 0x00};
 
 
-    public LoyaltyCardReader() { }
+    public CardReader() { }
 
     /**
      * Callback when a new tag is discovered by the system.
