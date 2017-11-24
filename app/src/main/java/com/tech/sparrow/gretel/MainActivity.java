@@ -52,8 +52,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void handleClick(View view) {
+    public void handleClickMap(View view) {
         Intent i = new Intent(getBaseContext(), MapsActivity.class);
+        startActivity(i);
+    }
+
+    public void handleClickLogin(View view) {
+        Intent i = new Intent(getBaseContext(), LoginActivity.class);
         startActivity(i);
     }
 }

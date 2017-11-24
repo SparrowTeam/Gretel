@@ -10,11 +10,21 @@
         android:id="@+id/mapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/Login"
+        android:layout_alignStart="@+id/Login"
+        android:layout_marginBottom="21dp"
+        android:onClick="handleClickMap"
+        android:text="Map" />
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="82dp"
-        android:onClick="handleClick"
-        android:text="Map" />
+        android:onClick="handleClickLogin"
+        android:text="Login" />
 
     <TextView
         android:id="@+id/markIDtextView"
