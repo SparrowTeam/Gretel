@@ -4,4 +4,6 @@
         android:title="Login" />
     <item android:id="@+id/world"
         android:title="World" />
+    <item android:id="@+id/test_nav"
+        android:title="TestNav"/>
 </menu>
