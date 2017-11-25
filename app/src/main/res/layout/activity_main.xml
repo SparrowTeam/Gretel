@@ -16,29 +16,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:alpha="1"
+            android:contentDescription="Background"
             android:scaleType="centerCrop"
-            android:src="@drawable/mountains_nature_man_person_1080_1920_png"
-            android:alpha="1"/>
-
-        <Button
-            android:id="@+id/mapButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/Login"
-            android:layout_alignStart="@+id/Login"
-            android:layout_marginBottom="21dp"
-            android:onClick="handleClickMap"
-            android:text="Map" />
-
-        <Button
-            android:id="@+id/Login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="82dp"
-            android:onClick="handleClickLogin"
-            android:text="Login" />
+            android:src="@drawable/mountains_nature_man_person_1080_1920_jpg" />
 
         <TextView
             android:id="@+id/markIDtextView"
@@ -48,15 +29,19 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
             android:text="ID"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/colorAccentAlt"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/colorPrimaryAlt"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/main_menu" />
 
 

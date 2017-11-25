@@ -9,18 +9,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
     public static final String TAG = "MainActivity";
     public CardReader mCardReader;
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
     private DrawerLayout mDrawerLayout;
-    private NavigationView mDrawerList;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (NavigationView) findViewById(R.id.navigation);
-        //mDrawerList.OnClickListener(new DrawerItemClickListener());
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.login) {
+            handleClickLogin();
+        }
+
+        if (id == R.id.world) {
+            handleClickMap();
+        }
+
+        return true;
     }
 
     @Override
@@ -45,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void handleClickMap(View view) {
+    public void handleClickMap() {
         Intent i = new Intent(getBaseContext(), MapsActivity.class);
         startActivity(i);
     }
 
-    public void handleClickLogin(View view) {
+    public void handleClickLogin() {
         Intent i = new Intent(getBaseContext(), LoginActivity.class);
         startActivity(i);
     }
