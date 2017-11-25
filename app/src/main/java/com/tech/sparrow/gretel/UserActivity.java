@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,11 +27,24 @@ import retrofit2.Response;
 
 public class UserActivity extends AppCompatActivity {
     public static final String TAG = "UserActivity";
+    public CardReader mCardReader;
+    public static int READER_FLAGS =
+            NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
+
+        mCardReader = new CardReader(this);
+        if (nfc != null) {
+            nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
+        }
+
+
+
     }
 
     public void onImageClick(View view) {
@@ -66,7 +80,7 @@ public class UserActivity extends AppCompatActivity {
             MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
 
-            retrofit2.Call<okhttp3.ResponseBody> req = App.getApi().postImage("Zm9vMkBiYWF6LnJ1", body, name);
+            retrofit2.Call<okhttp3.ResponseBody> req = App.getApi().postImage(App.loadToken(), body, name);
             req.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -79,5 +93,10 @@ public class UserActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void handleTagId(final String tagId) {
+        Intent i = new Intent(getBaseContext(), NewMark.class);
+        startActivity(i);
     }
 }

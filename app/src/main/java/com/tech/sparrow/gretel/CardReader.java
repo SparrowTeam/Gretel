@@ -27,9 +27,9 @@ import android.util.Log;
  */
 public class CardReader implements NfcAdapter.ReaderCallback {
     private static final String TAG = "CardReader";
-    private NavigationActivity parentActivity;
+    private UserActivity parentActivity;
 
-    public CardReader(NavigationActivity parentActivity) {
+    public CardReader(UserActivity parentActivity) {
         this.parentActivity = parentActivity;
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,10 +17,6 @@ public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "NavigationActivity";
-    public CardReader mCardReader;
-    public static int READER_FLAGS =
-            NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
-    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +24,6 @@ public class NavigationActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -38,14 +34,12 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
-
-        mCardReader = new CardReader(this);
-        if (nfc != null) {
-            nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
+        try {
+            getActionBar().setTitle("O_o");
+            getSupportActionBar().setTitle("O_o");
+        } catch (NullPointerException ex) {
+            Log.e(TAG, "No action bar!");
         }
-
-        getSupportActionBar().setTitle("O_o");
 
         // redirect if we have token
         Menu nav_Menu = navigationView.getMenu();
@@ -110,9 +104,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if(id == R.id.nav_logout){
             handleClickLogout();
         } else if (id == R.id.nav_world) {
-            //handleClickMap();
-            Intent i = new Intent(getBaseContext(), UserActivity.class);
-            startActivity(i);
+            handleClickMap();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,12 +132,4 @@ public class NavigationActivity extends AppCompatActivity
         startActivity(i);
     }
 
-    public void handleTagId(final String tagId) {
-        //final TextView markTextView = findViewById(R.id.markIDtextView);
-        //markTextView.post(new Runnable() {
-        //    public void run() {
-        //        markTextView.setText("ID\n" + tagId);
-        //    }
-        //});
-    }
 }
