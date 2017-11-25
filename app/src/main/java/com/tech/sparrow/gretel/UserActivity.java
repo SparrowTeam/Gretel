@@ -121,12 +121,14 @@ public class UserActivity extends AppCompatActivity {
                 public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                     Log.d(TAG, "Response: " + response.toString());
                     final UserInfo info = response.body();
-                    Call<List<MarkInfo>> req_mark_info = App.getApi().listMarksByUserId(App.loadToken(), "");
+                    Call<List<MarkInfo>> req_mark_info = App.getApi().listMarksByUser(App.loadToken());
                     req_mark_info.enqueue(new Callback<List<MarkInfo>>() {
                         @Override
                         public void onResponse(Call<List<MarkInfo>> call, Response<List<MarkInfo>> response) {
                             Log.d(TAG, "Response: " + response.toString());
-                            List<MarkInfo> marks = response.body();
+                            List<MarkInfo> marks;
+                            if (response.body() == null) marks = new ArrayList<>();
+                            else marks = response.body();
 
                             Intent map_user_tags_activity_intent = new Intent(UserActivity.this, MapUserTagsActivity.class);
                             map_user_tags_activity_intent.putExtra("info", info);
