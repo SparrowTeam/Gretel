@@ -40,6 +40,9 @@ public interface HanselService {
     @GET("user/info")
     Call<UserInfo> info(@Header("X-API-TOKEN") String X_API_TOKEN);
 
+    @GET("user/marks")
+    Call<List<MarkInfo>> listMarksByUser(@Header("X-API-TOKEN") String X_API_TOKEN);
+
     @GET("user/marks/{user_id}")
     Call<List<MarkInfo>> listMarksByUserId(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("user_id") String user_id);
 
