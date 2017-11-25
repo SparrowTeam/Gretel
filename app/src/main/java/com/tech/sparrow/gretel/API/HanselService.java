@@ -2,15 +2,16 @@ package com.tech.sparrow.gretel.API;
 
 import com.tech.sparrow.gretel.API.models.request.LoginRequest;
 import com.tech.sparrow.gretel.API.models.request.RegisterRequest;
-import com.tech.sparrow.gretel.API.models.response.MarkByUserId;
+import com.tech.sparrow.gretel.API.models.response.MarkInfo;
+import com.tech.sparrow.gretel.API.models.response.MarkDetailedInfo;
 import com.tech.sparrow.gretel.API.models.response.Token;
 import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -35,5 +36,11 @@ public interface HanselService {
     Call<UserInfo> info(@Header("X-API-TOKEN") String X_API_TOKEN);
 
     @GET("user/marks/{user_id}")
-    Call<List<MarkByUserId>> listMarksByUserId(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("user_id") String user_id);
+    Call<List<MarkInfo>> listMarksByUserId(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("user_id") String user_id);
+
+    @GET("marks/{mark_id}")
+    Call<MarkDetailedInfo> getMarkInfo(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
+
+    @GET("mark/{mark_id}/status")
+    Call<?> getMarkStatus(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
 }

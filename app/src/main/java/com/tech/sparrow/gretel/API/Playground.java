@@ -4,6 +4,8 @@ import com.tech.sparrow.gretel.API.models.request.LoginRequest;
 import com.tech.sparrow.gretel.API.models.response.Token;
 import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,6 +54,8 @@ public class Playground {
                 if (response.isSuccessful()) {
                     Token tokenResponse = response.body();
                     System.out.println("Got token!!! "+tokenResponse.getToken());
+                    testInfo(tokenResponse.getToken());
+                    testMarkStatus(tokenResponse.getToken(), "XXX-666-YYY");
                 } else {
                     APIError error = ErrorUtils.parseError(retrofit, response);
                     System.out.println(error);
@@ -61,6 +65,7 @@ public class Playground {
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
                 // there is more than just a failing request (like: no internet connection)
+                System.out.println("Connection failure");
             }
         });
     }
@@ -84,5 +89,15 @@ public class Playground {
                 // there is more than just a failing request (like: no internet connection)
             }
         });
+    }
+
+    public void testMarkStatus(String token, String id){
+        Call<?> call = hanselService.getMarkStatus(token, id);
+        try {
+            Response<?> response = call.execute();
+            System.out.println("Got mark status!!! "+response.code());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

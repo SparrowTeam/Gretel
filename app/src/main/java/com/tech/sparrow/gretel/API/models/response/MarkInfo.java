@@ -8,9 +8,9 @@ import java.util.Date;
  * Created by Denis on 25.11.2017.
  */
 
-public class MarkByUserId {
+public class MarkInfo {
 
-    @SerializedName("rfid")
+    @SerializedName("id")
     private String rfid;
 
     @SerializedName("name")
@@ -28,7 +28,7 @@ public class MarkByUserId {
     @SerializedName("coordinates")
     private Coordinates coordinates;
 
-    public MarkByUserId(String rfid, String name, Date updated_datetime, int value, int team_id, Coordinates coordinates) {
+    public MarkInfo(String rfid, String name, Date updated_datetime, int value, int team_id, Coordinates coordinates) {
         this.rfid = rfid;
         this.name = name;
         this.updated_datetime = updated_datetime;
