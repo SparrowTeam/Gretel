@@ -34,4 +34,12 @@ public class UserInfo {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "name='" + name + '\'' +
+                ", team=" + team +
+                '}';
+    }
 }

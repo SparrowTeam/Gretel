@@ -21,6 +21,7 @@ public class ErrorUtils {
 
         try {
             error = converter.convert(response.errorBody());
+            error.setStatusCode(response.code());
         } catch (IOException e) {
             return new APIError();
         }

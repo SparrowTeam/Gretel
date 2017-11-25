@@ -2,6 +2,7 @@ package com.tech.sparrow.gretel.API;
 
 import com.tech.sparrow.gretel.API.models.request.LoginRequest;
 import com.tech.sparrow.gretel.API.models.response.Token;
+import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +29,7 @@ public class Playground {
         System.out.println("Hello world");
         Playground playground = new Playground();
         playground.onCreate();
-        playground.testLogin();
+        playground.testLogin("petya@pupkin.ru", "qwerty");
     }
 
     public void onCreate() {
@@ -43,8 +44,8 @@ public class Playground {
         hanselService = retrofit.create(HanselService.class);
     }
 
-    public void testLogin(){
-        Call<Token> call = hanselService.login(new LoginRequest("vasya@pupkin.ru", "qwerty4"));
+    public void testLogin(String email, String password){
+        Call<Token> call = hanselService.login(new LoginRequest(email, password));
         call.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
@@ -53,12 +54,33 @@ public class Playground {
                     System.out.println("Got token!!! "+tokenResponse.getToken());
                 } else {
                     APIError error = ErrorUtils.parseError(retrofit, response);
-                    System.out.println("error code="+error.status()+" error message="+error.message());
+                    System.out.println(error);
                 }
             }
 
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
+                // there is more than just a failing request (like: no internet connection)
+            }
+        });
+    }
+
+    public void testInfo(String token){
+        Call<UserInfo> call = hanselService.info(token);
+        call.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                if (response.isSuccessful()) {
+                    UserInfo userInfo = response.body();
+                    System.out.println("Got user info!!! "+ userInfo);
+                } else {
+                    APIError error = ErrorUtils.parseError(retrofit, response);
+                    System.out.println(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
                 // there is more than just a failing request (like: no internet connection)
             }
         });
