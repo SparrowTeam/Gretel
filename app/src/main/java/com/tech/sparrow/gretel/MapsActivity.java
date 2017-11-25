@@ -9,6 +9,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -44,17 +45,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         LatLng park = new LatLng(60.188199, 24.832441);
+        LatLng another_location = new LatLng(60.185242, 24.831872);
         Circle circle = mMap.addCircle(new CircleOptions()
             .center(park)
             .radius(50)
             .fillColor(R.color.area_color)
             .strokeWidth(0)
         );
-        mMap.addMarker(new MarkerOptions()
-                .position(park)
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-        );
+        MarkerOptions marker_team1 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_searching))
+                .anchor((float) 0.50, (float) 0.50)
+                ;
+        mMap.addMarker(marker_team1.position(park));
+
+
+        mMap.addMarker(marker_team1.position(another_location));
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(park, 15));
     }
 }
