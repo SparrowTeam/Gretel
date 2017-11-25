@@ -97,6 +97,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void handleTagId(final String tagId) {
         Intent i = new Intent(getBaseContext(), NewMark.class);
+        i.putExtra("EXTRA_TAG_ID", tagId);
         startActivity(i);
     }
 }

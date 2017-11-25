@@ -7,43 +7,44 @@
     tools:context="com.tech.sparrow.gretel.NewMark">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/markID_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="25dp"
-        android:text="TextView" />
+        android:text="ID: " />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/locationEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/markID_lbl"
+        android:layout_below="@+id/markID_lbl"
         android:layout_marginTop="27dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="Location" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addPhoto_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
+        android:layout_alignStart="@+id/locationEdit"
+        android:layout_below="@+id/locationEdit"
         android:layout_marginTop="32dp"
-        android:text="Button" />
+        android:text="add photo" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/commentEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button2"
-        android:layout_below="@+id/button2"
+        android:layout_alignStart="@+id/addPhoto_btn"
+        android:layout_below="@+id/addPhoto_btn"
         android:layout_marginTop="22dp"
         android:ems="10"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:text="Description" />
 
     <TextView
         android:id="@+id/textView2"
@@ -53,25 +54,36 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="33dp"
         android:layout_marginTop="48dp"
-        android:text="TextView" />
+        android:text="Capture this tag!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/submit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="59dp"
         android:layout_marginEnd="30dp"
-        android:text="Button" />
+        android:text="Submit" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/dateEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText2"
-        android:layout_below="@+id/editText2"
+        android:layout_alignStart="@+id/commentEdit"
+        android:layout_below="@+id/commentEdit"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="date" />
+
+    <TextView
+        android:id="@+id/photoCount_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/addPhoto_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </android.widget.RelativeLayout>
