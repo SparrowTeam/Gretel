@@ -29,8 +29,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tech.sparrow.gretel.API.APIError;
+import com.tech.sparrow.gretel.API.ErrorUtils;
+import com.tech.sparrow.gretel.API.models.request.LoginRequest;
+import com.tech.sparrow.gretel.API.models.response.Token;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -44,13 +54,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -306,25 +309,55 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            String username = mEmail.split("@")[0];
+            System.out.println(username);
 
+            Call<Token> call = App.getApi().login(new LoginRequest(mEmail, mPassword));
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                Response<Token> response = call.execute();
+                if (response.isSuccessful()) {
+                    Token tokenResponse = response.body();
+                    System.out.println("Got token!!! "+tokenResponse.getToken());
+                    return true;
+                } else {
+                    APIError error = ErrorUtils.parseError(App.getRetrofit(), response);
+                    System.out.println(error);
+                    return false;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Connection failure");
+
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*call.enqueue(new Callback<Token>() {
+                @Override
+                public void onResponse(Call<Token> call, Response<Token> response) {
+                    if (response.isSuccessful()) {
+                        Token tokenResponse = response.body();
+                        System.out.println("Got token!!! "+tokenResponse.getToken());
+                    } else {
+                        APIError error = ErrorUtils.parseError(App.getRetrofit(), response);
+                        System.out.println(error);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Token> call, Throwable t) {
+                    // there is more than just a failing request (like: no internet connection)
+                    System.out.println("Connection failure");
+                }
+            });*/
+
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
-
-            // TODO: register the new account here.
-            return true;
+            }*/
         }
 
         @Override
