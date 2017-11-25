@@ -3,20 +3,22 @@ package com.tech.sparrow.gretel;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
-import android.provider.MediaStore;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.util.SortedList;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.tech.sparrow.gretel.API.models.response.MarkInfo;
+import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -25,17 +27,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.view.View;
-import android.widget.Toast;
-
-import com.tech.sparrow.gretel.API.APIError;
-import com.tech.sparrow.gretel.API.ErrorUtils;
-import com.tech.sparrow.gretel.API.models.response.MarkInfo;
-import com.tech.sparrow.gretel.API.models.response.UserInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 public class UserActivity extends AppCompatActivity {
     public static final String TAG = "UserActivity";
@@ -108,9 +99,30 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void handleTagId(final String tagId) {
-        Intent i = new Intent(getBaseContext(), NewMark.class);
-        i.putExtra("EXTRA_TAG_ID", tagId);
-        startActivity(i);
+        Call<ResponseBody> req = App.getApi().getMarkStatus(App.loadToken(), tagId);
+        try {
+            Response<ResponseBody> response = req.execute();
+            int code = response.code();
+            switch (code){
+                case 200:
+                    // mark is already known (another team)
+                    Toast.makeText(getApplicationContext(), "You successfully conquered the mark! Congratulations!", Toast.LENGTH_LONG).show();
+                    break;
+                case 202:
+                    // new mark
+                    Intent i = new Intent(getBaseContext(), NewMark.class);
+                    i.putExtra("EXTRA_TAG_ID", tagId);
+                    startActivity(i);
+                    break;
+                case 403:
+                    // mark of your team
+                    Toast.makeText(getApplicationContext(), "This is the mark of your team. You can't takeover it.", Toast.LENGTH_LONG).show();
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void showUserTags(View v)

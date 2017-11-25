@@ -47,7 +47,7 @@ public interface HanselService {
     Call<MarkDetailedInfo> getMarkInfo(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
 
     @GET("mark/{mark_id}/status")
-    Call<?> getMarkStatus(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
+    Call<ResponseBody> getMarkStatus(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
 
 
     @Multipart
