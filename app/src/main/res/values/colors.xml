@@ -7,5 +7,6 @@
     <color name="colorPrimaryAlt">#777777</color>
     <color name="colorPrimaryDarkAlt">#666666</color>
     <color name="colorAccentAlt">#eeeeee</color>
-    <color name="area_color">#80DDDDDD</color>
+    <color name="team_color1">#60FF0000</color>
+    <color name="team_color2">#60000FFF</color>
 </resources>
