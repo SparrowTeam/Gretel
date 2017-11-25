@@ -1,5 +1,11 @@
 package com.tech.sparrow.gretel.API;
 
+import com.tech.sparrow.gretel.API.models.request.LoginRequest;
+import com.tech.sparrow.gretel.API.models.response.Token;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,21 +20,47 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Playground {
 
-    private static String endpoint_url = "https://api.github.com/";
+    private static String endpoint_url = "http://10.100.16.26:8080/";
     private static HanselService hanselService;
     private Retrofit retrofit;
 
     public static void main(String[] args){
-        new Playground().test();
+        System.out.println("Hello world");
+        Playground playground = new Playground();
+        playground.onCreate();
+        playground.testLogin();
     }
 
-    public void test(){
-        System.out.println("Hello world");
+    public void onCreate() {
+        /**
+         *  TODO move into Android application onCreate() method
+         */
         retrofit = new Retrofit.Builder()
                 .baseUrl(endpoint_url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         hanselService = retrofit.create(HanselService.class);
+    }
+
+    public void testLogin(){
+        Call<Token> call = hanselService.login(new LoginRequest("vasya@pupkin.ru", "qwerty4"));
+        call.enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                if (response.isSuccessful()) {
+                    Token tokenResponse = response.body();
+                    System.out.println("Got token!!! "+tokenResponse.getToken());
+                } else {
+                    APIError error = ErrorUtils.parseError(retrofit, response);
+                    System.out.println("error code="+error.status()+" error message="+error.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                // there is more than just a failing request (like: no internet connection)
+            }
+        });
     }
 }

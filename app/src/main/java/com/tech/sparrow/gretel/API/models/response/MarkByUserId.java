@@ -1,4 +1,4 @@
-package com.tech.sparrow.gretel.API.models;
+package com.tech.sparrow.gretel.API.models.response;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package com.tech.sparrow.gretel.API.models;
+package com.tech.sparrow.gretel.API.models.response;
 
 /**
  * Created by Denis on 25.11.2017.
@@ -6,12 +6,12 @@ package com.tech.sparrow.gretel.API.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TokenResponse {
+public class Token {
 
     @SerializedName("token")
     private String token;
 
-    public TokenResponse(String token) {
+    public Token(String token) {
         this.token = token;
     }
 

@@ -1,16 +1,19 @@
 package com.tech.sparrow.gretel.API;
 
-import com.tech.sparrow.gretel.API.models.MarkByUserId;
-import com.tech.sparrow.gretel.API.models.TokenResponse;
-import com.tech.sparrow.gretel.API.models.UserInfo;
+import com.tech.sparrow.gretel.API.models.request.LoginRequest;
+import com.tech.sparrow.gretel.API.models.request.RegisterRequest;
+import com.tech.sparrow.gretel.API.models.response.MarkByUserId;
+import com.tech.sparrow.gretel.API.models.response.Token;
+import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -20,13 +23,13 @@ import retrofit2.http.Path;
 
 public interface HanselService {
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST("user/login")
-    Call<TokenResponse> login(@Field("email") String email, @Field("password") String password);
+    Call<Token> login(@Body LoginRequest loginRequest);
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST("user/register")
-    Call<TokenResponse> register(@Field("email") String email, @Field("password") String password, @Field("name") String name);
+    Call<Token> register(@Body RegisterRequest registerRequest);
 
     @GET("user/info")
     Call<UserInfo> info(@Header("X-API-TOKEN") String X_API_TOKEN);
