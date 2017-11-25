@@ -3,6 +3,7 @@ package com.tech.sparrow.gretel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -28,10 +29,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tech.sparrow.gretel.API.APIError;
 import com.tech.sparrow.gretel.API.ErrorUtils;
 import com.tech.sparrow.gretel.API.models.request.LoginRequest;
+import com.tech.sparrow.gretel.API.models.request.RegisterRequest;
 import com.tech.sparrow.gretel.API.models.response.Token;
 
 import java.io.IOException;
@@ -64,6 +67,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    // token
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,55 +315,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String username = mEmail.split("@")[0];
-            System.out.println(username);
 
             Call<Token> call = App.getApi().login(new LoginRequest(mEmail, mPassword));
             try {
                 Response<Token> response = call.execute();
                 if (response.isSuccessful()) {
+                    // successful login
                     Token tokenResponse = response.body();
-                    System.out.println("Got token!!! "+tokenResponse.getToken());
+                    token = tokenResponse.getToken();
                     return true;
                 } else {
                     APIError error = ErrorUtils.parseError(App.getRetrofit(), response);
                     System.out.println(error);
-                    return false;
+
+                    // login is not successful, try to register new account
+                    String username = mEmail.split("@")[0];
+                    Call<Token> call2 = App.getApi().register(new RegisterRequest(mEmail, mPassword, username));
+                    try{
+                        response = call2.execute();
+                        if(response.isSuccessful()){
+                            // successful registration
+                            Token tokenResponse = response.body();
+                            token = tokenResponse.getToken();
+                            return true;
+                        }
+                        else{
+                            // registration fail
+                            return false;
+                        }
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Connection failure");
-
+                Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
                 return false;
             }
-
-            /*call.enqueue(new Callback<Token>() {
-                @Override
-                public void onResponse(Call<Token> call, Response<Token> response) {
-                    if (response.isSuccessful()) {
-                        Token tokenResponse = response.body();
-                        System.out.println("Got token!!! "+tokenResponse.getToken());
-                    } else {
-                        APIError error = ErrorUtils.parseError(App.getRetrofit(), response);
-                        System.out.println(error);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Token> call, Throwable t) {
-                    // there is more than just a failing request (like: no internet connection)
-                    System.out.println("Connection failure");
-                }
-            });*/
-
-            /*for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
         }
 
         @Override
@@ -366,7 +364,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                System.out.println("DEBUG! Got token!!! "+token);
                 finish();
+                handleClickUser();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -377,6 +377,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        public void handleClickUser(){
+            Intent i = new Intent(getBaseContext(), UserActivity.class);
+            startActivity(i);
         }
     }
 }
