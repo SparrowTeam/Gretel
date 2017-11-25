@@ -32,9 +32,9 @@ import java.util.Arrays;
  */
 public class CardReader implements NfcAdapter.ReaderCallback {
     private static final String TAG = "CardReader";
-    private MainActivity parentActivity;
+    private NavigationActivity parentActivity;
 
-    public CardReader(MainActivity parentActivity) {
+    public CardReader(NavigationActivity parentActivity) {
         this.parentActivity = parentActivity;
     }
 
