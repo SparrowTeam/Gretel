@@ -1,6 +1,8 @@
 package com.tech.sparrow.gretel;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.tech.sparrow.gretel.API.HanselService;
 
@@ -17,6 +19,10 @@ public class App extends Application {
     private static HanselService hanselService;
     private static Retrofit retrofit;
 
+    private static SharedPreferences sPref;
+    private static App application;
+    private static String SAVED_TOKEN = "SAVED_TOKEN";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,6 +33,7 @@ public class App extends Application {
                 .build();
 
         hanselService = retrofit.create(HanselService.class);
+        application = this;
     }
 
     public static HanselService getApi() {
@@ -35,5 +42,17 @@ public class App extends Application {
 
     public static Retrofit getRetrofit() {
         return retrofit;
+    }
+
+    public static void saveToken(String token) {
+        sPref = PreferenceManager.getDefaultSharedPreferences(application);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putString(SAVED_TOKEN, token);
+        ed.commit();
+    }
+
+    public static String loadToken() {
+        sPref = PreferenceManager.getDefaultSharedPreferences(application);
+        return sPref.getString(SAVED_TOKEN, null);
     }
 }

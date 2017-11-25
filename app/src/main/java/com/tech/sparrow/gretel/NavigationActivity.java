@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 public class NavigationActivity extends AppCompatActivity
@@ -48,6 +49,25 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        String token = App.loadToken();
+        if(token != null && !token.isEmpty()){
+            // user authorized
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
+        else {
+            // user unauthorized
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -80,6 +100,8 @@ public class NavigationActivity extends AppCompatActivity
 
         if (id == R.id.nav_login) {
             handleClickLogin();
+        } else if(id == R.id.nav_logout){
+            handleClickLogout();
         } else if (id == R.id.nav_world) {
             //handleClickMap();
             Intent i = new Intent(getBaseContext(), UserActivity.class);
@@ -99,6 +121,11 @@ public class NavigationActivity extends AppCompatActivity
     public void handleClickLogin() {
         Intent i = new Intent(getBaseContext(), LoginActivity.class);
         startActivity(i);
+    }
+
+    public void handleClickLogout() {
+        App.saveToken(null);
+        recreate(); // restart activity (SDK >= 11)
     }
 
     public void handleTagId(final String tagId) {

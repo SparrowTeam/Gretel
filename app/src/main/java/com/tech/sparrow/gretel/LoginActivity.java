@@ -326,7 +326,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return true;
                 } else {
                     APIError error = ErrorUtils.parseError(App.getRetrofit(), response);
-                    System.out.println(error);
+                    System.out.println("DEBUG! "+error);
 
                     // login is not successful, try to register new account
                     String username = mEmail.split("@")[0];
@@ -365,6 +365,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 System.out.println("DEBUG! Got token!!! "+token);
+                App.saveToken(token);
                 finish();
                 handleClickUser();
             } else {
