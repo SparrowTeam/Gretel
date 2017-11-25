@@ -45,21 +45,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         LatLng park = new LatLng(60.188199, 24.832441);
-        LatLng another_location = new LatLng(60.185242, 24.831872);
-        Circle circle = mMap.addCircle(new CircleOptions()
-            .center(park)
-            .radius(50)
-            .fillColor(R.color.area_color)
-            .strokeWidth(0)
-        );
+        LatLng dipoli = new LatLng(60.185242, 24.831872);
+        LatLng otakari = new LatLng(60.186033, 24.827361);
+
+        int team_color1 = 0x70FF0000;
+        int team_color2 = 0x70000FFF;
+
+        CircleOptions circle_team1 = new CircleOptions()
+                .radius(100)
+                .fillColor(team_color1)
+                .strokeWidth(0);
+
+        CircleOptions circle_team2 = new CircleOptions()
+                .radius(100)
+                .fillColor(team_color2)
+                .strokeWidth(0);
+
         MarkerOptions marker_team1 = new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_searching))
-                .anchor((float) 0.50, (float) 0.50)
-                ;
+                .anchor((float) 0.50, (float) 0.50);
+
+        MarkerOptions marker_team2 = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_searching))
+                .anchor((float) 0.50, (float) 0.50);
+
+        mMap.addCircle(circle_team1.center(park));
         mMap.addMarker(marker_team1.position(park));
 
+        mMap.addCircle(circle_team1.center(dipoli));
+        mMap.addMarker(marker_team1.position(dipoli));
 
-        mMap.addMarker(marker_team1.position(another_location));
+        mMap.addCircle(circle_team2.center(otakari));
+        mMap.addMarker(marker_team2.position(otakari));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(park, 15));
     }
