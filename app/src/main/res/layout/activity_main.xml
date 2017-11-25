@@ -12,6 +12,14 @@
         android:id="@+id/content_frame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mountains_nature_man_person_1080_1920_png"
+            android:alpha="1"/>
+
         <Button
             android:id="@+id/mapButton"
             android:layout_width="wrap_content"
