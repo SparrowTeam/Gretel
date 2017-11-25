@@ -6,25 +6,14 @@
     android:layout_height="match_parent"
     tools:context="com.tech.sparrow.gretel.UserActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="206dp"
-        android:layout_height="185dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        app:srcCompat="@drawable/atomix_user31"
-        tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="59dp" />
-
     <Button
         android:id="@+id/userMarks_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
-        android:text="Owened Marks"
+        android:layout_marginTop="50dp"
+        android:text="View Marks"
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="299dp" />
 
@@ -33,10 +22,22 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userMarks_btn"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="68dp"
+        android:layout_marginBottom="86dp"
         tools:layout_editor_absoluteX="156dp"
         tools:layout_editor_absoluteY="412dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="@android:dimen/thumbnail_width"
+        android:layout_height="@android:dimen/thumbnail_height"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
+        android:adjustViewBounds="false"
+        android:onClick="onImageClick"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/atomix_user31" />
 
 </android.widget.RelativeLayout>
