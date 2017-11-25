@@ -3,11 +3,15 @@ package com.tech.sparrow.gretel;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.util.SortedList;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -16,6 +20,7 @@ import com.tech.sparrow.gretel.API.models.response.MarkInfo;
 import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,18 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.view.View;
+import android.widget.Toast;
+
+import com.tech.sparrow.gretel.API.APIError;
+import com.tech.sparrow.gretel.API.ErrorUtils;
+import com.tech.sparrow.gretel.API.models.response.ImageInfo;
+import com.tech.sparrow.gretel.API.models.response.MarkInfo;
+import com.tech.sparrow.gretel.API.models.response.UserInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class UserActivity extends AppCompatActivity {
     public static final String TAG = "UserActivity";
@@ -59,39 +76,28 @@ public class UserActivity extends AppCompatActivity {
         );
     }
 
-    private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
-        Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            return contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            return cursor.getString(idx);
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode==3 && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
-            String filePath = getRealPathFromURIPath(selectedImage, this);
+            String filePath = App.getRealPathFromURIPath(selectedImage, this);
             File file = new File(filePath);
 
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
 
-            retrofit2.Call<okhttp3.ResponseBody> req = App.getApi().postImage(App.loadToken(), body, name);
-            req.enqueue(new Callback<ResponseBody>() {
+            retrofit2.Call<ImageInfo> req = App.getApi().postImage(App.loadToken(), body, name);
+            req.enqueue(new Callback<ImageInfo>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<ImageInfo> call, Response<ImageInfo> response) {
                     Log.d(TAG, "Response: " + response.toString());
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<ImageInfo> call, Throwable t) {
                     t.printStackTrace();
                 }
             });

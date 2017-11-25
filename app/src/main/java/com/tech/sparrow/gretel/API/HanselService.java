@@ -2,6 +2,7 @@ package com.tech.sparrow.gretel.API;
 
 import com.tech.sparrow.gretel.API.models.request.LoginRequest;
 import com.tech.sparrow.gretel.API.models.request.RegisterRequest;
+import com.tech.sparrow.gretel.API.models.response.ImageInfo;
 import com.tech.sparrow.gretel.API.models.response.MarkInfo;
 import com.tech.sparrow.gretel.API.models.response.MarkDetailedInfo;
 import com.tech.sparrow.gretel.API.models.response.Token;
@@ -55,5 +56,5 @@ public interface HanselService {
 
     @Multipart
     @POST("/photo")
-    Call<ResponseBody> postImage(@Header("X-API-TOKEN") String X_API_TOKEN, @Part MultipartBody.Part image, @Part("name") RequestBody name);
+    Call<ImageInfo> postImage(@Header("X-API-TOKEN") String X_API_TOKEN, @Part MultipartBody.Part image, @Part("name") RequestBody name);
 }
