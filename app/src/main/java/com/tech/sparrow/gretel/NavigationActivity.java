@@ -57,7 +57,6 @@ public class NavigationActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -82,7 +81,9 @@ public class NavigationActivity extends AppCompatActivity
         if (id == R.id.nav_login) {
             handleClickLogin();
         } else if (id == R.id.nav_world) {
-            handleClickMap();
+            //handleClickMap();
+            Intent i = new Intent(getBaseContext(), UserActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
