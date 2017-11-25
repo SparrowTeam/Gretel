@@ -2,13 +2,14 @@ package com.tech.sparrow.gretel.API.models.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Denis on 25.11.2017.
  */
 
-public class MarkInfo {
+public class MarkInfo implements Serializable{
 
     @SerializedName("id")
     private String rfid;

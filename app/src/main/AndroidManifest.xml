@@ -49,8 +49,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:name=".MapWorldTagsActivity"
+            android:label="WorldTags" />
+        <activity
+            android:name=".MapUserTagsActivity"
+            android:label="UserTags" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />

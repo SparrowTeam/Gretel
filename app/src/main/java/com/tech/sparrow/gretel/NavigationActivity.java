@@ -113,7 +113,7 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     public void handleClickMap() {
-        Intent i = new Intent(getBaseContext(), MapsActivity.class);
+        Intent i = new Intent(getBaseContext(), MapWorldTagsActivity.class);
         startActivity(i);
     }
 

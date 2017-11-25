@@ -2,11 +2,13 @@ package com.tech.sparrow.gretel.API.models.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Denis on 25.11.2017.
  */
 
-public class UserInfo {
+public class UserInfo implements Serializable{
 
     @SerializedName("name")
     private String name;

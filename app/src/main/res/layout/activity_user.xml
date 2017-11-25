@@ -14,6 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="View Marks"
+        android:onClick="showUserTags"
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="299dp" />
 
