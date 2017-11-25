@@ -46,6 +46,13 @@ public class NavigationActivity extends AppCompatActivity
         }
 
         getSupportActionBar().setTitle("O_o");
+
+        // redirect if we have token
+        Menu nav_Menu = navigationView.getMenu();
+        String token = App.loadToken();
+        if(token != null && !token.isEmpty()){
+            handleRedirectUser();
+        }
     }
 
     @Override
@@ -126,6 +133,11 @@ public class NavigationActivity extends AppCompatActivity
     public void handleClickLogout() {
         App.saveToken(null);
         recreate(); // restart activity (SDK >= 11)
+    }
+
+    public void handleRedirectUser(){
+        Intent i = new Intent(getBaseContext(), UserActivity.class);
+        startActivity(i);
     }
 
     public void handleTagId(final String tagId) {
