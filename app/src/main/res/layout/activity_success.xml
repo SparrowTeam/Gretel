@@ -15,11 +15,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="81dp"
         android:text="YOU ARE THE KING!"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="@android:color/holo_red_dark"
         android:textColorHighlight="@color/colorAccentAlt"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="visible"
         tools:layout_editor_absoluteX="73dp"
         tools:layout_editor_absoluteY="230dp" />
 
