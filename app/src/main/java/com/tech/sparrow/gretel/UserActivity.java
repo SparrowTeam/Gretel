@@ -84,6 +84,7 @@ public class UserActivity extends AppCompatActivity {
                 info = response.body();
                 Button button = findViewById(R.id.userMarks_btn);
                 button.setTextColor(Color.parseColor(info.getTeam().getColor()));
+
             }
 
             @Override

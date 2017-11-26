@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:onClick="showUserTags"
-        android:text="View Marks"
+        android:text="View tags"
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="299dp" />
 
@@ -42,5 +42,14 @@
         android:onClick="onImageClick"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/atomix_user31" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/scanningBar"
+        android:layout_centerHorizontal="true"
+        android:text="Touch NFC tag"
+        android:textSize="24sp" />
 
 </android.widget.RelativeLayout>
