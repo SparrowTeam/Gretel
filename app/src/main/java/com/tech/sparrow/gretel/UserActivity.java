@@ -202,7 +202,7 @@ public class UserActivity extends AppCompatActivity {
                             if (response.body() == null) marks = new ArrayList<>();
                             else marks = response.body();
 
-                            Intent map_user_tags_activity_intent = new Intent(UserActivity.this, MapWorldTagsActivity.class);
+                            Intent map_user_tags_activity_intent = new Intent(UserActivity.this, MapUserTagsActivity.class);
                             map_user_tags_activity_intent.putExtra("info", info);
                             map_user_tags_activity_intent.putExtra("marks", new ArrayList(marks));
                             startActivity(map_user_tags_activity_intent);
