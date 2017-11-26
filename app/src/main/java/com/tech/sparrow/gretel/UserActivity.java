@@ -128,12 +128,6 @@ public class UserActivity extends AppCompatActivity {
                 int code = response.code();
                 switch (code){
                     case 200:
-                        // mark is already known (another team)
-                        //Toast t = Toast.makeText(getApplicationContext(), "You successfully conquered the mark!\nCongratulations!", Toast.LENGTH_LONG);
-                        //TextView v = (TextView) t.getView().findViewById(android.R.id.message);
-                        //if( v != null) v.setGravity(Gravity.CENTER);
-                        //t.show();
-
                         Call<MarkDetailedInfo> call2 = App.getApi().getMarkInfo(App.loadToken(), tagId.replace(" ",""));
 
                         call2.enqueue(new Callback<MarkDetailedInfo>() {
