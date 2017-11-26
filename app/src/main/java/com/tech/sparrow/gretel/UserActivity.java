@@ -9,6 +9,7 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.util.SortedList;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.tech.sparrow.gretel.API.APIError;
 import com.tech.sparrow.gretel.API.ErrorUtils;
+import com.tech.sparrow.gretel.API.models.response.MarkDetailedInfo;
 import com.tech.sparrow.gretel.API.models.response.MarkInfo;
 import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
@@ -107,7 +109,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void handleTagId(final String tagId) {
-        String tagIdWithoutSpaces = tagId.replace(" ","");
+        final String tagIdWithoutSpaces = tagId.replace(" ","");
         Call<ResponseBody> call = App.getApi().getMarkStatus(App.loadToken(), tagIdWithoutSpaces);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -127,11 +129,32 @@ public class UserActivity extends AppCompatActivity {
                     case 403:
                         // mark of your team
                         Toast.makeText(getApplicationContext(), "This is the mark of your team. You can't takeover it.", Toast.LENGTH_LONG).show();
+                        displayMarkInfo(tagIdWithoutSpaces);
                         break;
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void displayMarkInfo(String tag){
+        Call<MarkDetailedInfo> call = App.getApi().getMarkInfo(App.loadToken(), tag);
+        call.enqueue(new Callback<MarkDetailedInfo>() {
+            @Override
+            public void onResponse(Call<MarkDetailedInfo> call, Response<MarkDetailedInfo> response) {
+                if(response.isSuccessful()){
+                    MarkDetailedInfo info = response.body();
+                    handleMarkInfoActivity(info);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Can't get mark info", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<MarkDetailedInfo> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
             }
         });
@@ -172,5 +195,11 @@ public class UserActivity extends AppCompatActivity {
                     t.printStackTrace();
                 }
         });
+    }
+
+    public void handleMarkInfoActivity(MarkDetailedInfo markDetailedInfo){
+        Intent map_user_tags_activity_intent = new Intent(UserActivity.this, MarkInfoActivity.class);
+        map_user_tags_activity_intent.putExtra("info", markDetailedInfo);
+        startActivity(map_user_tags_activity_intent);
     }
 }

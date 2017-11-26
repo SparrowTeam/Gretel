@@ -2,6 +2,7 @@ package com.tech.sparrow.gretel.API.models.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by Denis on 25.11.2017.
  */
 
-public class MarkDetailedInfo {
+public class MarkDetailedInfo implements Serializable{
 
     @SerializedName("id")
     private String rfid;
@@ -37,6 +38,93 @@ public class MarkDetailedInfo {
 
     @SerializedName("comments")
     private List<Comment> comments;
+
+    public String getRfid() {
+        return rfid;
+    }
+
+    public void setRfid(String rfid) {
+        this.rfid = rfid;
+    }
+
+    public RelatedDateTime getRelatedDateTime() {
+        return relatedDateTime;
+    }
+
+    public void setRelatedDateTime(RelatedDateTime relatedDateTime) {
+        this.relatedDateTime = relatedDateTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<String> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "MarkDetailedInfo{" +
+                "rfid='" + rfid + '\'' +
+                ", relatedDateTime=" + relatedDateTime +
+                ", name='" + name + '\'' +
+                ", team=" + team +
+                ", coordinates=" + coordinates +
+                ", value=" + value +
+                ", users=" + users +
+                ", photos=" + photos +
+                ", comments=" + comments +
+                '}';
+    }
 
     public class RelatedDateTime {
 
