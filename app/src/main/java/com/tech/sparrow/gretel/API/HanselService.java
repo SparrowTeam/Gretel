@@ -48,6 +48,13 @@ public interface HanselService {
     @GET("user/marks/{user_id}")
     Call<List<MarkInfo>> listMarksByUserId(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("user_id") String user_id);
 
+    @Multipart
+    @POST("user/photo")
+    Call<ImageInfo> postUserPhoto(@Header("X-API-TOKEN") String X_API_TOKEN, @Part MultipartBody.Part image, @Part("name") RequestBody name);
+
+    @GET("marks")
+    Call<List<MarkDetailedInfo>> listMarks(@Header("X-API-TOKEN") String X_API_TOKEN);
+
     @GET("marks/{mark_id}")
     Call<MarkDetailedInfo> getMarkInfo(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
 

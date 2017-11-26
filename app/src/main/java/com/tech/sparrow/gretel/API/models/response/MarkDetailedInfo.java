@@ -126,32 +126,32 @@ public class MarkDetailedInfo implements Serializable{
                 '}';
     }
 
-    public class RelatedDateTime {
+    public class RelatedDateTime implements Serializable{
 
         @SerializedName("registered")
-        private Date registered;
+        private String registered;
 
         @SerializedName("updated")
-        private Date updated;
+        private String updated;
 
-        public Date getRegistered() {
+        public String getRegistered() {
             return registered;
         }
 
-        public void setRegistered(Date registered) {
+        public void setRegistered(String registered) {
             this.registered = registered;
         }
 
-        public Date getUpdated() {
+        public String getUpdated() {
             return updated;
         }
 
-        public void setUpdated(Date updated) {
+        public void setUpdated(String updated) {
             this.updated = updated;
         }
     }
 
-    public class User {
+    public class User implements Serializable{
 
         @SerializedName("id")
         private int id;
@@ -187,7 +187,7 @@ public class MarkDetailedInfo implements Serializable{
         }
     }
 
-    public class Comment{
+    public class Comment implements Serializable{
 
         @SerializedName("user_name")
         private String userName;
@@ -196,7 +196,7 @@ public class MarkDetailedInfo implements Serializable{
         private String teamColor;
 
         @SerializedName("datetime")
-        private Date datetime;
+        private String datetime;
 
         @SerializedName("text")
         private String text;
@@ -217,11 +217,11 @@ public class MarkDetailedInfo implements Serializable{
             this.teamColor = teamColor;
         }
 
-        public Date getDatetime() {
+        public String getDatetime() {
             return datetime;
         }
 
-        public void setDatetime(Date datetime) {
+        public void setDatetime(String datetime) {
             this.datetime = datetime;
         }
 

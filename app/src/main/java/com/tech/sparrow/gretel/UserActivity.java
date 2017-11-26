@@ -2,11 +2,13 @@ package com.tech.sparrow.gretel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
@@ -86,18 +88,26 @@ public class UserActivity extends AppCompatActivity {
 
         if(requestCode==3 && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
-            String filePath = App.getRealPathFromURIPath(selectedImage, this);
+            final String filePath = App.getRealPathFromURIPath(selectedImage, this);
             File file = new File(filePath);
 
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
 
-            retrofit2.Call<ImageInfo> req = App.getApi().postImage(App.loadToken(), body, name);
+            retrofit2.Call<ImageInfo> req = App.getApi().postUserPhoto(App.loadToken(), body, name);
             req.enqueue(new Callback<ImageInfo>() {
                 @Override
                 public void onResponse(Call<ImageInfo> call, Response<ImageInfo> response) {
                     Log.d(TAG, "Response: " + response.toString());
+                    int code = response.code();
+                    switch (code){
+                        case 200:
+                            // photo uploaded
+                            //getApplicationContext().
+                            //findViewById(android.view.View.);
+                            break;
+                    }
                 }
 
                 @Override
@@ -192,7 +202,7 @@ public class UserActivity extends AppCompatActivity {
                             if (response.body() == null) marks = new ArrayList<>();
                             else marks = response.body();
 
-                            Intent map_user_tags_activity_intent = new Intent(UserActivity.this, MapUserTagsActivity.class);
+                            Intent map_user_tags_activity_intent = new Intent(UserActivity.this, MapWorldTagsActivity.class);
                             map_user_tags_activity_intent.putExtra("info", info);
                             map_user_tags_activity_intent.putExtra("marks", new ArrayList(marks));
                             startActivity(map_user_tags_activity_intent);
