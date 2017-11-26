@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v7.util.SortedList;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +62,8 @@ public class UserActivity extends AppCompatActivity {
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
+    public UserInfo info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,22 @@ public class UserActivity extends AppCompatActivity {
         if (nfc != null) {
             nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
         }
+
+        Call<UserInfo> req = App.getApi().info(App.loadToken());
+        req.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                Log.d(TAG, "Response: " + response.toString());
+                info = response.body();
+                Button button = findViewById(R.id.userMarks_btn);
+                button.setTextColor(Color.parseColor(info.getTeam().getColor()));
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     public void onImageClick(View view) {

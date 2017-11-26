@@ -2,6 +2,7 @@
 <android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lay_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.tech.sparrow.gretel.UserActivity">
@@ -13,8 +14,8 @@
         android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="View Marks"
         android:onClick="showUserTags"
+        android:text="View Marks"
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="299dp" />
 
