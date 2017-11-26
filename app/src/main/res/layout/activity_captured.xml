@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tech.sparrow.gretel.CapturedActivity">
+
+    <TextView
+        android:id="@+id/msg2_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="228dp"
+        android:text="is yours now!"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/name_lbl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/msg2_lbl"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="TextView"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/msg_lbl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/msg2_lbl"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="69dp"
+        android:text="The tag of"
+        android:textSize="18sp" />
+</android.widget.RelativeLayout>

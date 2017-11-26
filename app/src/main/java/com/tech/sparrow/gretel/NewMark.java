@@ -167,6 +167,10 @@ public class NewMark extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<ImageInfo> call, Throwable t) {
                     t.printStackTrace();
+                    Toast t2 = Toast.makeText(getApplicationContext(), "Failed to upload photo", Toast.LENGTH_LONG);
+                    TextView v2 = (TextView) t2.getView().findViewById(android.R.id.message);
+                    if( v2 != null) v2.setGravity(Gravity.CENTER);
+                    t2.show();
                 }
             });
         }

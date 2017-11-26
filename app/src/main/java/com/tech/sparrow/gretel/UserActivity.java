@@ -123,6 +123,22 @@ public class UserActivity extends AppCompatActivity {
                         TextView v = (TextView) t.getView().findViewById(android.R.id.message);
                         if( v != null) v.setGravity(Gravity.CENTER);
                         t.show();
+
+                        Call<MarkDetailedInfo> call2 = App.getApi().getMarkInfo(App.loadToken(), tagId.replace(" ",""));
+                        call2.enqueue(new Callback<MarkDetailedInfo>() {
+                            @Override
+                            public void onResponse(Call<MarkDetailedInfo> call, Response<MarkDetailedInfo> response) {
+                                Intent i = new Intent(UserActivity.this, MapUserTagsActivity.class);
+                                MarkDetailedInfo info = response.body();
+                                MarkDetailedInfo.User user = info.getUsers().get(0);
+                                i.putExtra("username", user.getName());
+                                startActivity(i);
+                            }
+                            @Override
+                            public void onFailure(Call<MarkDetailedInfo> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
+                            }
+                        });
                         break;
                     case 202:
                         // new mark
