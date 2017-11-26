@@ -54,9 +54,12 @@ public class NavigationActivity extends AppCompatActivity
 
         // redirect if we have token
         Menu nav_Menu = navigationView.getMenu();
-        String token = App.loadToken();
-        if(token != null && !token.isEmpty()){
-            handleRedirectUser();
+        Boolean stay = getIntent().getBooleanExtra("stay", false);
+        if (!stay) {
+            String token = App.loadToken();
+            if (token != null && !token.isEmpty()) {
+                handleRedirectUser();
+            }
         }
     }
 

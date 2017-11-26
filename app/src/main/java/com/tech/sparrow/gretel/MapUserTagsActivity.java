@@ -90,7 +90,10 @@ public class MapUserTagsActivity extends FragmentActivity implements OnMapReadyC
             LatLngBounds bounds = builder.build();
             int padding = 0; // offset from edges of the map in pixels
 
+
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 600, 600, padding));
+            //mMap.moveCamera(CameraUpdateFactory.zoomOut());
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 11));
         }
     }
 }

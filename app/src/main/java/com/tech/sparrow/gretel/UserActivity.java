@@ -138,6 +138,13 @@ public class UserActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(UserActivity.this, NavigationActivity.class);
+        i.putExtra("stay", true);
+        startActivity(i);
+    }
+
     public void handleTagId(final String tagId) {
         final String tagIdWithoutSpaces = tagId.replace(" ","");
         Call<ResponseBody> call = App.getApi().getMarkStatus(App.loadToken(), tagIdWithoutSpaces);
