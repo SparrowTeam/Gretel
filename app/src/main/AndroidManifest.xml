@@ -84,6 +84,7 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".NewMark" />
         <activity android:name=".MarkInfoActivity" />
+        <activity android:name=".SuccessActivity" />
     </application>
 
 </manifest>

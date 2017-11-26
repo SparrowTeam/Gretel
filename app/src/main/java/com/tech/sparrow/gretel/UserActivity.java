@@ -14,7 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.util.SortedList;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tech.sparrow.gretel.API.APIError;
@@ -66,9 +69,6 @@ public class UserActivity extends AppCompatActivity {
         if (nfc != null) {
             nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
         }
-
-
-
     }
 
     public void onImageClick(View view) {
@@ -114,11 +114,15 @@ public class UserActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
                 int code = response.code();
                 switch (code){
                     case 200:
                         // mark is already known (another team)
-                        Toast.makeText(getApplicationContext(), "You successfully conquered the mark! Congratulations!", Toast.LENGTH_LONG).show();
+                        Toast t = Toast.makeText(getApplicationContext(), "You successfully conquered the mark!\nCongratulations!", Toast.LENGTH_LONG);
+                        TextView v = (TextView) t.getView().findViewById(android.R.id.message);
+                        if( v != null) v.setGravity(Gravity.CENTER);
+                        t.show();
                         break;
                     case 202:
                         // new mark
@@ -128,7 +132,18 @@ public class UserActivity extends AppCompatActivity {
                         break;
                     case 403:
                         // mark of your team
-                        Toast.makeText(getApplicationContext(), "This is the mark of your team. You can't takeover it.", Toast.LENGTH_LONG).show();
+                        Toast t2 = Toast.makeText(getApplicationContext(), "This is the mark of your team.\nYou can't takeover it.", Toast.LENGTH_LONG);
+                        TextView v2 = (TextView) t2.getView().findViewById(android.R.id.message);
+                        if( v2 != null) v2.setGravity(Gravity.CENTER);
+                        t2.show();
+                        displayMarkInfo(tagIdWithoutSpaces);
+                        break;
+                    case 201:
+                        // mark of your team
+                        Toast t3 = Toast.makeText(getApplicationContext(), "This is your mark.\nYou should be proud of it.", Toast.LENGTH_LONG);
+                        TextView v3 = (TextView) t3.getView().findViewById(android.R.id.message);
+                        if( v3 != null) v3.setGravity(Gravity.CENTER);
+                        t3.show();
                         displayMarkInfo(tagIdWithoutSpaces);
                         break;
                 }

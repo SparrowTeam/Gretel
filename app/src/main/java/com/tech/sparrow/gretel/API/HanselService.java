@@ -1,6 +1,7 @@
 package com.tech.sparrow.gretel.API;
 
 import com.tech.sparrow.gretel.API.models.request.LoginRequest;
+import com.tech.sparrow.gretel.API.models.request.MarkRequest;
 import com.tech.sparrow.gretel.API.models.request.RegisterRequest;
 import com.tech.sparrow.gretel.API.models.response.ImageInfo;
 import com.tech.sparrow.gretel.API.models.response.MarkInfo;
@@ -49,6 +50,10 @@ public interface HanselService {
 
     @GET("marks/{mark_id}")
     Call<MarkDetailedInfo> getMarkInfo(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
+
+    @Headers("Content-Type: application/json")
+    @POST("marks/{mark_id}")
+    Call<ResponseBody> postMark(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id, @Body MarkRequest markRequest);
 
     @GET("mark/{mark_id}/status")
     Call<ResponseBody> getMarkStatus(@Header("X-API-TOKEN") String X_API_TOKEN, @Path("mark_id") String mark_id);
