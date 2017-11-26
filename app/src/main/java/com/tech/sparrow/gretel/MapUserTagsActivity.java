@@ -71,7 +71,6 @@ public class MapUserTagsActivity extends FragmentActivity implements OnMapReadyC
                 .anchor((float) 0.50, (float) 0.50);
 
         CircleOptions circle_user = new CircleOptions()
-                .radius(100)
                 .fillColor(Color.parseColor(info.getTeam().getColor()))
                 .strokeWidth(0);
 
@@ -83,13 +82,15 @@ public class MapUserTagsActivity extends FragmentActivity implements OnMapReadyC
                     Double.parseDouble(mark.getCoordinates().getLongtitude())
             );
 
-            drawMark(marker, circle_user, position);
+            drawMark(marker, circle_user.radius(mark.getValue()), position);
             builder.include(position);
         }
 
-        LatLngBounds bounds = builder.build();
-        int padding = 5; // offset from edges of the map in pixels
+        if (!marks.isEmpty()) {
+            LatLngBounds bounds = builder.build();
+            int padding = 0; // offset from edges of the map in pixels
 
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300, 300, padding));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 600, 600, padding));
+        }
     }
 }
