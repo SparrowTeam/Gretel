@@ -14,11 +14,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tech.sparrow.gretel.API.models.response.MarkDetailedInfo;
+import com.tech.sparrow.gretel.API.models.response.MarkInfo;
+import com.tech.sparrow.gretel.API.models.response.UserInfo;
+
+import java.util.List;
 
 public class MapWorldTagsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private UserInfo info;
+    private List<MarkDetailedInfo> marks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +37,16 @@ public class MapWorldTagsActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        info = (UserInfo) getIntent().getSerializableExtra("info");
+        marks = (List< MarkDetailedInfo>) getIntent().getSerializableExtra("marks");
     }
 
+    private void drawMark(MarkerOptions marker, CircleOptions circle, LatLng coord)
+    {
+        mMap.addCircle(circle.center(coord));
+        mMap.addMarker(marker.position(coord));
+    }
 
     /**
      * Manipulates the map once available.
@@ -44,40 +61,31 @@ public class MapWorldTagsActivity extends FragmentActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng park = new LatLng(60.188199, 24.832441);
-        LatLng dipoli = new LatLng(60.185242, 24.831872);
-        LatLng otakari = new LatLng(60.186033, 24.827361);
-
-        int team_color1 = 0x70FF0000;
-        int team_color2 = 0x70000FFF;
-
-        CircleOptions circle_team1 = new CircleOptions()
-                .radius(100)
-                .fillColor(team_color1)
-                .strokeWidth(0);
-
-        CircleOptions circle_team2 = new CircleOptions()
-                .radius(100)
-                .fillColor(team_color2)
-                .strokeWidth(0);
-
-        MarkerOptions marker_team1 = new MarkerOptions()
+        MarkerOptions marker = new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_searching))
                 .anchor((float) 0.50, (float) 0.50);
 
-        MarkerOptions marker_team2 = new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_searching))
-                .anchor((float) 0.50, (float) 0.50);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        mMap.addCircle(circle_team1.center(park));
-        mMap.addMarker(marker_team1.position(park));
+        for (MarkDetailedInfo mark : marks) {
+            CircleOptions circle = new CircleOptions()
+                    .fillColor(Color.parseColor(mark.getTeam().getColor()))
+                    .strokeWidth(0);
 
-        mMap.addCircle(circle_team1.center(dipoli));
-        mMap.addMarker(marker_team1.position(dipoli));
+            LatLng position = new LatLng(
+                    Double.parseDouble(mark.getCoordinates().getLatitude()),
+                    Double.parseDouble(mark.getCoordinates().getLongtitude())
+            );
 
-        mMap.addCircle(circle_team2.center(otakari));
-        mMap.addMarker(marker_team2.position(otakari));
+            drawMark(marker, circle.radius(mark.getValue()), position);
+            builder.include(position);
+        }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(park, 15));
+        if (!marks.isEmpty()) {
+            LatLngBounds bounds = builder.build();
+            int padding = 0; // offset from edges of the map in pixels
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 600, 600, padding));
+        }
     }
 }

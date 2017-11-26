@@ -13,6 +13,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tech.sparrow.gretel.API.models.response.MarkDetailedInfo;
+import com.tech.sparrow.gretel.API.models.response.MarkInfo;
+import com.tech.sparrow.gretel.API.models.response.UserInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -117,8 +128,40 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     public void handleClickMap() {
-        Intent i = new Intent(getBaseContext(), MapWorldTagsActivity.class);
-        startActivity(i);
+
+        Call<UserInfo> req = App.getApi().info(App.loadToken());
+        req.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                Log.d(TAG, "Response: " + response.toString());
+                final UserInfo info = response.body();
+                Call<List<MarkDetailedInfo>> req_mark_info = App.getApi().listMarks(App.loadToken());
+                req_mark_info.enqueue(new Callback<List<MarkDetailedInfo>>() {
+                    @Override
+                    public void onResponse(Call<List<MarkDetailedInfo>> call, Response<List<MarkDetailedInfo>> response) {
+                        Log.d(TAG, "Response: " + response.toString());
+                        List<MarkDetailedInfo> marks;
+                        if (response.body() == null) marks = new ArrayList<>();
+                        else marks = response.body();
+
+                        Intent map_user_tags_activity_intent = new Intent(NavigationActivity.this, MapWorldTagsActivity.class);
+                        map_user_tags_activity_intent.putExtra("info", info);
+                        map_user_tags_activity_intent.putExtra("marks", new ArrayList(marks));
+                        startActivity(map_user_tags_activity_intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<MarkDetailedInfo>> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     public void handleClickLogin() {
