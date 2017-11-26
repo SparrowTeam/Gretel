@@ -142,7 +142,7 @@ public class UserActivity extends AppCompatActivity {
                                 Log.d(TAG, "Response: " + response2.code());
                                 Intent i = new Intent(UserActivity.this, CapturedActivity.class);
                                 MarkDetailedInfo info = response2.body();
-                                MarkDetailedInfo.User user = info.getUsers().get(1);
+                                MarkDetailedInfo.User user = info.getUsers().get(0);
                                 i.putExtra("username", user.getName());
                                 startActivity(i);
                             }
@@ -165,7 +165,7 @@ public class UserActivity extends AppCompatActivity {
                         TextView v2 = (TextView) t2.getView().findViewById(android.R.id.message);
                         if( v2 != null) v2.setGravity(Gravity.CENTER);
                         t2.show();
-                        displayMarkInfo(tagIdWithoutSpaces);
+                        //displayMarkInfo(tagIdWithoutSpaces);
                         break;
                     case 201:
                         // mark of your team
@@ -173,7 +173,7 @@ public class UserActivity extends AppCompatActivity {
                         TextView v3 = (TextView) t3.getView().findViewById(android.R.id.message);
                         if( v3 != null) v3.setGravity(Gravity.CENTER);
                         t3.show();
-                        displayMarkInfo(tagIdWithoutSpaces);
+                        //displayMarkInfo(tagIdWithoutSpaces);
                         break;
                 }
             }
