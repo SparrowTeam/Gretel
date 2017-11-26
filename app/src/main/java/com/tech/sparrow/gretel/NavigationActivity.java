@@ -60,11 +60,13 @@ public class NavigationActivity extends AppCompatActivity
             // user authorized
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
         }
         else {
             // user unauthorized
             nav_Menu.findItem(R.id.nav_login).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
         }
     }
 
@@ -105,6 +107,8 @@ public class NavigationActivity extends AppCompatActivity
             handleClickLogout();
         } else if (id == R.id.nav_world) {
             handleClickMap();
+        } else if (id == R.id.nav_profile){
+            handleRedirectUser();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
