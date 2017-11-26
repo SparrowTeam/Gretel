@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tech.sparrow.gretel.API.APIError;
 import com.tech.sparrow.gretel.API.ErrorUtils;
@@ -73,6 +75,8 @@ public class MapUserTagsActivity extends FragmentActivity implements OnMapReadyC
                 .fillColor(Color.parseColor(info.getTeam().getColor()))
                 .strokeWidth(0);
 
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
         for (MarkInfo mark: marks) {
             LatLng position = new LatLng(
                     Double.parseDouble(mark.getCoordinates().getLatitude()),
@@ -80,8 +84,12 @@ public class MapUserTagsActivity extends FragmentActivity implements OnMapReadyC
             );
 
             drawMark(marker, circle_user, position);
+            builder.include(position);
         }
 
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(, 15));
+        LatLngBounds bounds = builder.build();
+        int padding = 5; // offset from edges of the map in pixels
+
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300, 300, padding));
     }
 }

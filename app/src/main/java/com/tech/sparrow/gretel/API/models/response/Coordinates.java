@@ -2,11 +2,13 @@ package com.tech.sparrow.gretel.API.models.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Denis on 25.11.2017.
  */
 
-public class Coordinates {
+public class Coordinates implements Serializable{
 
     @SerializedName("longtitude")
     private String longtitude;
