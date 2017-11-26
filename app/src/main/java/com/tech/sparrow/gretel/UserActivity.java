@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.tech.sparrow.gretel.API.APIError;
+import com.tech.sparrow.gretel.API.ErrorUtils;
 import com.tech.sparrow.gretel.API.models.response.MarkInfo;
 import com.tech.sparrow.gretel.API.models.response.UserInfo;
 
@@ -99,30 +101,34 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void handleTagId(final String tagId) {
-        Call<ResponseBody> req = App.getApi().getMarkStatus(App.loadToken(), tagId);
-        try {
-            Response<ResponseBody> response = req.execute();
-            int code = response.code();
-            switch (code){
-                case 200:
-                    // mark is already known (another team)
-                    Toast.makeText(getApplicationContext(), "You successfully conquered the mark! Congratulations!", Toast.LENGTH_LONG).show();
-                    break;
-                case 202:
-                    // new mark
-                    Intent i = new Intent(getBaseContext(), NewMark.class);
-                    i.putExtra("EXTRA_TAG_ID", tagId);
-                    startActivity(i);
-                    break;
-                case 403:
-                    // mark of your team
-                    Toast.makeText(getApplicationContext(), "This is the mark of your team. You can't takeover it.", Toast.LENGTH_LONG).show();
-                    break;
+        String tagIdWithoutSpaces = tagId.replace(" ","");
+        Call<ResponseBody> call = App.getApi().getMarkStatus(App.loadToken(), tagIdWithoutSpaces);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int code = response.code();
+                switch (code){
+                    case 200:
+                        // mark is already known (another team)
+                        Toast.makeText(getApplicationContext(), "You successfully conquered the mark! Congratulations!", Toast.LENGTH_LONG).show();
+                        break;
+                    case 202:
+                        // new mark
+                        Intent i = new Intent(getBaseContext(), NewMark.class);
+                        i.putExtra("EXTRA_TAG_ID", tagId);
+                        startActivity(i);
+                        break;
+                    case 403:
+                        // mark of your team
+                        Toast.makeText(getApplicationContext(), "This is the mark of your team. You can't takeover it.", Toast.LENGTH_LONG).show();
+                        break;
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
-        }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Connection failure", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void showUserTags(View v)
