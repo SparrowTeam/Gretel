@@ -26,8 +26,8 @@
         android:layout_marginTop="25dp"
         android:ems="10"
         android:gravity="center_horizontal"
-        android:inputType="textPersonName"
-        android:text="Location" />
+        android:hint="Describe Location"
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/addPhoto_btn"
@@ -58,6 +58,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="59dp"
         android:layout_marginEnd="30dp"
+        android:onClick="handleSubmit"
         android:text="Submit" />
 
     <TextView

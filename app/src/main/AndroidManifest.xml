@@ -82,7 +82,8 @@
                 android:resource="@xml/filter" />
         </activity>
         <activity android:name=".UserActivity" />
-        <activity android:name=".NewMark"></activity>
+        <activity android:name=".NewMark" />
+        <activity android:name=".SuccessActivity"></activity>
     </application>
 
 </manifest>

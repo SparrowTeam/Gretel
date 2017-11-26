@@ -10,16 +10,23 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.tech.sparrow.gretel.API.models.request.LoginRequest;
+import com.tech.sparrow.gretel.API.models.request.MarkRequest;
+import com.tech.sparrow.gretel.API.models.response.Coordinates;
 import com.tech.sparrow.gretel.API.models.response.ImageInfo;
+import com.tech.sparrow.gretel.API.models.response.Token;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +47,9 @@ public class NewMark extends AppCompatActivity {
     private static int SELECT_IMAGE_REQ = 6;
 
     private Integer imagesCount = 0;
-    private List<ImageInfo> images;
+    private ArrayList<ImageInfo> images;
     private Location lastLocation;
+    private String tagId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class NewMark extends AppCompatActivity {
 
         TextView idView = findViewById(R.id.markID_lbl);
         idView.append(s);
+        this.tagId = s;
 
         Date currentTime = Calendar.getInstance().getTime();
         TextView dateView = findViewById(R.id.tagDate_lbl);
@@ -60,6 +69,8 @@ public class NewMark extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setLocation();
         imagesCount = 0;
+
+        images = new ArrayList<ImageInfo>();
     }
 
     private void setLocation() {
@@ -159,5 +170,46 @@ public class NewMark extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void handleSubmit(View view) {
+        if (imagesCount == 0) {
+            Toast t = Toast.makeText(getApplicationContext(), "You should upload at least one photo", Toast.LENGTH_LONG);
+            TextView v = (TextView) t.getView().findViewById(android.R.id.message);
+            if( v != null) v.setGravity(Gravity.CENTER);
+            t.show();
+        }
+        EditText locationView = findViewById(R.id.locationEdit);
+        String locationDesc = locationView.getText().toString();
+
+        if (locationDesc.isEmpty()) {
+            locationDesc = "No description provided";
+        }
+
+        Call<ResponseBody> call = App.getApi().postMark(
+                App.loadToken(), this.tagId.replace(" ",""),
+                new MarkRequest(
+                locationDesc,
+                new Coordinates(
+                    String.valueOf(lastLocation.getLongitude()),
+                    String.valueOf(lastLocation.getLatitude()),
+                    String.valueOf(lastLocation.getAltitude()),
+                    ""
+                ),
+                images)
+        );
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(TAG, "Response: " + response.toString());
+                Intent i = new Intent(getBaseContext(), SuccessActivity.class);
+                startActivity(i);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
