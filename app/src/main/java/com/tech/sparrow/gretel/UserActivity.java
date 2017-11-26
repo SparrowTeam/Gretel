@@ -136,7 +136,7 @@ public class UserActivity extends AppCompatActivity {
                                 Log.d(TAG, "Response: " + response2.code());
                                 Intent i = new Intent(UserActivity.this, CapturedActivity.class);
                                 MarkDetailedInfo info = response2.body();
-                                MarkDetailedInfo.User user = info.getUsers().get(0);
+                                MarkDetailedInfo.User user = info.getUsers().get(1);
                                 i.putExtra("username", user.getName());
                                 startActivity(i);
                             }
