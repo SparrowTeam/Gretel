@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/success"
     tools:context="com.tech.sparrow.gretel.SuccessActivity">
 
     <TextView
@@ -12,9 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="81dp"
         android:text="YOU ARE THE KING!"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColorHighlight="@color/colorAccentAlt"
         android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
         tools:layout_editor_absoluteX="73dp"
         tools:layout_editor_absoluteY="230dp" />
 
@@ -24,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="109dp"
+        android:layout_marginBottom="23dp"
         android:onClick="onBackClick"
         android:text="BACK"
         tools:layout_editor_absoluteX="136dp"
