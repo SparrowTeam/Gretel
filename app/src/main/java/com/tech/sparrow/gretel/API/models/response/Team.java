@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Denis on 25.11.2017.
  */
 
-public class Team implements Serializable{
+public class Team implements Serializable {
 
     @SerializedName("id")
     private int id;

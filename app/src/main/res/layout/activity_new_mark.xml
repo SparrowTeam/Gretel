@@ -10,19 +10,22 @@
         android:id="@+id/markID_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView2"
+        android:layout_alignStart="@+id/locationEdit"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="25dp"
-        android:text="ID: " />
+        android:gravity="center_vertical"
+        android:text="ID: "
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/locationEdit"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/markID_lbl"
         android:layout_below="@+id/markID_lbl"
-        android:layout_marginTop="27dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
         android:ems="10"
+        android:gravity="center_horizontal"
         android:inputType="textPersonName"
         android:text="Location" />
 
@@ -32,28 +35,18 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/locationEdit"
         android:layout_below="@+id/locationEdit"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
+        android:onClick="handleAddPhoto"
         android:text="add photo" />
-
-    <EditText
-        android:id="@+id/commentEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/addPhoto_btn"
-        android:layout_below="@+id/addPhoto_btn"
-        android:layout_marginTop="22dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="Description" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="48dp"
+        android:layout_alignStart="@+id/markID_lbl"
+        android:layout_marginTop="27dp"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Capture this tag!"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -67,16 +60,6 @@
         android:layout_marginEnd="30dp"
         android:text="Submit" />
 
-    <EditText
-        android:id="@+id/dateEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/commentEdit"
-        android:layout_below="@+id/commentEdit"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="date" />
-
     <TextView
         android:id="@+id/photoCount_lbl"
         android:layout_width="wrap_content"
@@ -84,6 +67,17 @@
         android:layout_alignBottom="@+id/addPhoto_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/tagDate_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/addPhoto_btn"
+        android:layout_below="@+id/addPhoto_btn"
+        android:layout_marginTop="31dp"
+        android:text="TextView" />
+
 </android.widget.RelativeLayout>
